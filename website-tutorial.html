@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ویب سائٹ کیسے بنائیں</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0f1b2d;
+    --panel: #16273d;
+    --panel-2: #1c3049;
+    --line: #2a4160;
+    --gold: #e8b14a;
+    --teal: #4fd1c5;
+    --text: #f2efe9;
+    --text-dim: #a9bbd1;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(79,209,197,0.10), transparent),
+      radial-gradient(900px 500px at -10% 20%, rgba(232,177,74,0.08), transparent),
+      var(--bg);
+    color:var(--text);
+    font-family:'Noto Naskh Arabic', serif;
+    line-height:2;
+    font-size:19px;
+  }
+  h1,h2,h3,.nastaliq{
+    font-family:'Noto Nastaliq Urdu', serif;
+    font-weight:700;
+    line-height:1.9;
+  }
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+    direction:ltr;
+    text-align:left;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px;}
+
+  /* HERO */
+  header.hero{
+    padding:90px 0 70px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .eyebrow{
+    display:inline-block;
+    color:var(--teal);
+    font-family:'JetBrains Mono', monospace;
+    direction:ltr;
+    letter-spacing:1px;
+    font-size:13px;
+    border:1px solid rgba(79,209,197,0.4);
+    padding:5px 12px;
+    border-radius:100px;
+    margin-bottom:22px;
+  }
+  h1.title{
+    font-size:56px;
+    margin:0 0 18px;
+    background:linear-gradient(90deg, var(--gold), #f6d78a 45%, var(--text));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .subtitle{
+    color:var(--text-dim);
+    font-size:21px;
+    max-width:640px;
+    margin:0 0 34px;
+  }
+  .hero-tags{display:flex;gap:10px;flex-wrap:wrap;}
+  .tag{
+    background:var(--panel);
+    border:1px solid var(--line);
+    color:var(--text-dim);
+    padding:8px 16px;
+    border-radius:10px;
+    font-size:15px;
+  }
+
+  /* SECTION shell */
+  section{padding:64px 0;border-bottom:1px solid var(--line);}
+  .step-num{
+    font-family:'JetBrains Mono', monospace;
+    direction:ltr;
+    color:var(--gold);
+    font-size:15px;
+    display:inline-block;
+    margin-bottom:10px;
+    letter-spacing:2px;
+  }
+  h2{font-size:34px;margin:0 0 8px;color:var(--text);}
+  .lead{color:var(--text-dim);font-size:19px;margin:0 0 28px;max-width:720px;}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:26px 28px;
+    margin-bottom:18px;
+  }
+  .card h3{font-size:23px;margin:0 0 10px;color:var(--teal);}
+  .card p{margin:0;color:var(--text-dim);}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr;}}
+
+  /* code block */
+  .code-block{
+    background:#0a1420;
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+    margin:18px 0;
+  }
+  .code-block .bar{
+    display:flex;align-items:center;gap:7px;
+    padding:10px 14px;background:#0d1826;border-bottom:1px solid var(--line);
+    direction:ltr;
+  }
+  .dot{width:10px;height:10px;border-radius:50%;}
+  .dot.r{background:#ff5f56;} .dot.y{background:#ffbd2e;} .dot.g{background:#27c93f;}
+  .code-block pre{
+    margin:0;padding:18px 20px;overflow-x:auto;
+    font-family:'JetBrains Mono', monospace;
+    font-size:14.5px;
+    color:#d6e4f0;
+    direction:ltr;text-align:left;
+  }
+  .code-block code .tag-t{color:#4fd1c5;}
+  .code-block code .attr-t{color:#e8b14a;}
+  .code-block code .str-t{color:#a3e0a3;}
+  .code-block code .cmt-t{color:#6f89a8;}
+
+  /* LIVE EDITOR - signature element */
+  .lab{
+    background:var(--panel-2);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:26px;
+  }
+  .lab-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+  .lab-head h3{margin:0;color:var(--gold);font-size:24px;}
+  .lab-badge{
+    font-family:'JetBrains Mono', monospace;direction:ltr;font-size:12px;
+    color:var(--bg);background:var(--teal);padding:4px 10px;border-radius:100px;
+  }
+  .lab-body{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media(max-width:760px){.lab-body{grid-template-columns:1fr;}}
+  .lab-col{display:flex;flex-direction:column;}
+  .lab-col label{
+    font-family:'JetBrains Mono', monospace;direction:ltr;font-size:12px;
+    color:var(--text-dim);margin-bottom:8px;letter-spacing:1px;
+  }
+  textarea#editor{
+    width:100%;height:280px;
+    background:#0a1420;color:#d6e4f0;
+    border:1px solid var(--line);border-radius:10px;
+    font-family:'JetBrains Mono', monospace;font-size:14px;
+    padding:14px;resize:vertical;direction:ltr;text-align:left;
+  }
+  .preview-frame{
+    background:#fff;border-radius:10px;border:1px solid var(--line);
+    height:280px;overflow:hidden;
+  }
+  .preview-frame iframe{width:100%;height:100%;border:0;}
+  .lab-hint{color:var(--text-dim);font-size:15px;margin-top:14px;}
+
+  /* checklist / tools */
+  ul.tools{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:760px){ul.tools{grid-template-columns:1fr;}}
+  ul.tools li{
+    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:16px 18px;color:var(--text-dim);
+  }
+  ul.tools li b{color:var(--text);display:block;margin-bottom:4px;font-size:17px;}
+
+  footer{padding:50px 0 70px;text-align:center;color:var(--text-dim);}
+  footer .sig{color:var(--gold);font-family:'Noto Nastaliq Urdu';font-size:22px;}
+
+  ::selection{background:var(--gold);color:#0a1420;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">STUDENT GUIDE · WEB DEVELOPMENT</span>
+    <h1 class="title">ویب سائٹ کیسے بنائیں؟</h1>
+    <p class="subtitle">یہ ایک مکمل، آسان اور قدم بہ قدم گائیڈ ہے جو ایک طالب علم کو صفر سے اپنی پہلی ویب سائٹ بنانا سکھاتی ہے۔ نیچے دیے گئے مراحل کو ترتیب سے پڑھیں اور خود عملی طور پر آزمائیں۔</p>
+    <div class="hero-tags">
+      <span class="tag">HTML</span>
+      <span class="tag">CSS</span>
+      <span class="tag">JavaScript</span>
+      <span class="tag">Hosting</span>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <span class="step-num">STEP 01</span>
+    <h2>منصوبہ بندی کریں</h2>
+    <p class="lead">کوڈ لکھنے سے پہلے یہ طے کریں کہ آپ کی ویب سائٹ کس بارے میں ہے اور اس میں کون کون سے صفحات ہوں گے۔</p>
+    <div class="grid2">
+      <div class="card">
+        <h3>مقصد طے کریں</h3>
+        <p>سوچیں کہ ویب سائٹ کس کے لیے ہے — ذاتی تعارف، پورٹ فولیو، بلاگ یا کوئی چھوٹا پراجیکٹ؟</p>
+      </div>
+      <div class="card">
+        <h3>صفحات کی فہرست بنائیں</h3>
+        <p>مثلاً: ہوم پیج، میرے بارے میں، رابطہ — کاغذ پر ایک سادہ خاکہ بنا لیں۔</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="step-num">STEP 02</span>
+    <h2>HTML سے ڈھانچہ بنائیں</h2>
+    <p class="lead">HTML ویب سائٹ کی بنیاد ہے۔ یہ صفحے کا ڈھانچہ اور مواد بتاتی ہے — جیسے عمارت کی اینٹیں۔</p>
+    <div class="code-block">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code><span class="cmt-t">&lt;!-- یہ ایک بنیادی HTML صفحہ ہے --&gt;</span>
+<span class="tag-t">&lt;!DOCTYPE html&gt;</span>
+<span class="tag-t">&lt;html&gt;</span>
+  <span class="tag-t">&lt;head&gt;</span>
+    <span class="tag-t">&lt;title&gt;</span>میرا پہلا صفحہ<span class="tag-t">&lt;/title&gt;</span>
+  <span class="tag-t">&lt;/head&gt;</span>
+  <span class="tag-t">&lt;body&gt;</span>
+    <span class="tag-t">&lt;h1&gt;</span>خوش آمدید<span class="tag-t">&lt;/h1&gt;</span>
+    <span class="tag-t">&lt;p&gt;</span>یہ میری پہلی ویب سائٹ ہے۔<span class="tag-t">&lt;/p&gt;</span>
+  <span class="tag-t">&lt;/body&gt;</span>
+<span class="tag-t">&lt;/html&gt;</span></code></pre>
+    </div>
+    <p class="lead" style="margin-top:6px;">ہر <span class="mono" style="display:inline">&lt;tag&gt;</span> ایک مخصوص کام کرتا ہے: <b>h1</b> بڑا عنوان، <b>p</b> عام تحریر (پیراگراف)۔</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="step-num">STEP 03</span>
+    <h2>CSS سے خوبصورت بنائیں</h2>
+    <p class="lead">CSS رنگ، فونٹ، اور ترتیب سنبھالتی ہے — یہ ویب سائٹ کا لباس اور سجاوٹ ہے۔</p>
+    <div class="code-block">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code><span class="attr-t">h1</span> {
+  <span class="attr-t">color</span>: <span class="str-t">darkblue</span>;
+  <span class="attr-t">font-size</span>: <span class="str-t">40px</span>;
+  <span class="attr-t">text-align</span>: <span class="str-t">center</span>;
+}</code></pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="step-num">STEP 04</span>
+    <h2>خود آزمائیں — لائیو ایڈیٹر</h2>
+    <p class="lead">نیچے دیے گئے خانے میں کوڈ تبدیل کریں اور دائیں طرف فوری نتیجہ دیکھیں۔ یہی سیکھنے کا بہترین طریقہ ہے۔</p>
+    <div class="lab">
+      <div class="lab-head">
+        <h3>لائیو ایچ ٹی ایم ایل لیب</h3>
+        <span class="lab-badge">LIVE</span>
+      </div>
+      <div class="lab-body">
+        <div class="lab-col">
+          <label>YOUR CODE</label>
+          <textarea id="editor" spellcheck="false">&lt;h1 style="color:#e8b14a; font-family:sans-serif;"&gt;
+  سلام! یہ میری ویب سائٹ ہے
+&lt;/h1&gt;
+&lt;p style="font-family:sans-serif; color:#333;"&gt;
+  یہاں لکھا ہوا کوڈ تبدیل کریں اور دیکھیں
+&lt;/p&gt;
+&lt;button style="padding:10px 20px;"&gt;
+  مجھے دبائیں
+&lt;/button&gt;</textarea>
+        </div>
+        <div class="lab-col">
+          <label>PREVIEW</label>
+          <div class="preview-frame"><iframe id="preview" sandbox="allow-scripts"></iframe></div>
+        </div>
+      </div>
+      <p class="lab-hint">ترکیب: رنگ کا کوڈ بدل کر دیکھیں، جیسے <span class="mono" style="display:inline">color:red</span> یا <span class="mono" style="display:inline">color:green</span> — نتیجہ فوراً بدل جائے گا۔</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="step-num">STEP 05</span>
+    <h2>JavaScript سے حرکت پیدا کریں</h2>
+    <p class="lead">JavaScript ویب سائٹ کو ذہین بناتی ہے — بٹن دبانے پر کچھ ہونا، فارم چیک کرنا، وغیرہ۔</p>
+    <div class="code-block">
+      <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+      <pre><code><span class="tag-t">&lt;button</span> <span class="attr-t">onclick</span>=<span class="str-t">"alert('شکریہ!')"</span><span class="tag-t">&gt;</span>
+  دبائیں
+<span class="tag-t">&lt;/button&gt;</span></code></pre>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <span class="step-num">STEP 06</span>
+    <h2>ضروری اوزار</h2>
+    <p class="lead">شروع کرنے کے لیے آپ کو صرف یہ چاہیے:</p>
+    <ul class="tools">
+      <li><b>کوڈ ایڈیٹر</b>مثلاً VS Code — جہاں آپ کوڈ لکھیں گے۔</li>
+      <li><b>ویب براؤزر</b>مثلاً Chrome — جہاں نتیجہ دیکھیں گے۔</li>
+      <li><b>فولڈر</b>اپنی فائلوں (index.html, style.css) کو ایک جگہ رکھیں۔</li>
+      <li><b>حوصلہ</b>غلطیاں ہونا معمول ہے — مشق سے سیکھیں۔</li>
+    </ul>
+  </div>
+</section>
+
+<section style="border-bottom:none;">
+  <div class="wrap">
+    <span class="step-num">STEP 07</span>
+    <h2>ویب سائٹ کو انٹرنیٹ پر شائع کریں</h2>
+    <p class="lead">جب صفحہ تیار ہو جائے تو اسے دنیا کے سامنے لانے کے لیے کسی مفت ہوسٹنگ سروس کا استعمال کریں، جیسے <b>GitHub Pages</b> یا <b>Netlify</b>۔ اپنی فائلیں اپلوڈ کریں اور آپ کو ایک لنک مل جائے گا جسے کوئی بھی کھول سکتا ہے۔</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="sig">ہر بڑی ویب سائٹ ایک چھوٹے سے &lt;h1&gt; سے شروع ہوئی تھی</div>
+  </div>
+</footer>
+
+<script>
+  const editor = document.getElementById('editor');
+  const preview = document.getElementById('preview');
+  function render(){
+    const doc = preview.contentDocument || preview.contentWindow.document;
+    doc.open();
+    doc.write('<!DOCTYPE html><html><head><meta charset="utf-8"><style>body{font-family:sans-serif;padding:16px;margin:0;}</style></head><body>' + editor.value + '</body></html>');
+    doc.close();
+  }
+  editor.addEventListener('input', render);
+  window.addEventListener('load', render);
+</script>
+
+</body>
+</html>
